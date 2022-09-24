@@ -6,7 +6,9 @@ public interface ToDoService {
 
     List<ToDo> list(int page, int pageSize);
 
-    ToDo add(ToDo toDo);
+    ToDo read(int id) throws ToDoException;
+
+    ToDo add(ToDo toDo) throws ToDoException;
 
     ToDo checkAsDone(int id) throws ToDoException;
 

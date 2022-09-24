@@ -45,7 +45,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         var response = dispatcher.dispatch(fullHttpRequest);
         channelHandlerContext.writeAndFlush(response);
 
-
+        System.out.println("-------------------------------------------");
         HttpHeaders headers = fullHttpRequest.headers();
         HttpMethod method = fullHttpRequest.method();
         String uri = fullHttpRequest.uri();

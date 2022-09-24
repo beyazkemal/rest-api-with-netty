@@ -2,14 +2,20 @@ package com.kemalbeyaz.netty.rest.api.server.handler;
 
 import com.kemalbeyaz.netty.rest.api.operation.DefaultReq;
 import com.kemalbeyaz.netty.rest.api.operation.DefaultRes;
+import com.kemalbeyaz.netty.rest.api.server.HttpServerException;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
-public class TodoMovedHandler implements Handler<DefaultReq, DefaultRes> {
+public class MovedTodoListHandler implements Handler<DefaultReq, DefaultRes> {
 
     @Override
-    public String getPath() {
-        return "/todo";
+    public String getBasePath() {
+        return "/todo/list";
+    }
+
+    @Override
+    public boolean canHandle(String uri) {
+        return uri.equals(getBasePath());
     }
 
     @Override
@@ -28,9 +34,9 @@ public class TodoMovedHandler implements Handler<DefaultReq, DefaultRes> {
     }
 
     @Override
-    public DefaultRes handle(DefaultReq operationRequest) throws Exception {
+    public DefaultRes handle(DefaultReq operationRequest) throws HttpServerException {
         var defaultRes = new DefaultRes(HttpResponseStatus.MOVED_PERMANENTLY);
-        defaultRes.getHeaders().set(HttpHeaderNames.LOCATION, "/todo/list");
+        defaultRes.getHeaders().set(HttpHeaderNames.LOCATION, "/todo");
         return defaultRes;
     }
 }

@@ -20,7 +20,7 @@ public class ToDoServiceImpl implements ToDoService {
     }
 
     @Override
-    public List<ToDo> list(int page, int pageSize) {
+    public List<ToDo> list(final int page, int pageSize) {
         return toDos.stream()
                 .skip((long) page * pageSize)
                 .limit(pageSize)
@@ -28,13 +28,26 @@ public class ToDoServiceImpl implements ToDoService {
     }
 
     @Override
-    public ToDo add(ToDo toDo) {
+    public ToDo read(final int id) throws ToDoException {
+        var optionalToDo = toDos.stream()
+                .filter(todo -> todo.getId() == id)
+                .findAny();
+
+        if (optionalToDo.isEmpty()) {
+            throw new ToDoException(id + " id'li todo bulunamadı!");
+        }
+
+        return optionalToDo.get();
+    }
+
+    @Override
+    public ToDo add(final ToDo toDo) throws ToDoException {
         toDos.add(toDo);
         return toDo;
     }
 
     @Override
-    public ToDo checkAsDone(int id) throws ToDoException {
+    public ToDo checkAsDone(final int id) throws ToDoException {
         var toDoOptional = toDos.stream()
                 .filter(toDo -> toDo.getId() == id)
                 .findAny();
@@ -50,7 +63,7 @@ public class ToDoServiceImpl implements ToDoService {
     }
 
     @Override
-    public boolean remove(int id) {
+    public boolean remove(final int id) {
         return toDos.removeIf(toDo -> toDo.getId() == id);
     }
 }

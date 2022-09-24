@@ -6,12 +6,12 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.util.List;
 
-public class ListResp implements OperationResponse {
+public class ToDoListResp implements OperationResponse {
 
     private final HttpResponseStatus status;
     private final List<ToDo> todos;
 
-    public ListResp(HttpResponseStatus status, List<ToDo> todos) {
+    public ToDoListResp(HttpResponseStatus status, List<ToDo> todos) {
         this.status = status;
         this.todos = todos;
     }

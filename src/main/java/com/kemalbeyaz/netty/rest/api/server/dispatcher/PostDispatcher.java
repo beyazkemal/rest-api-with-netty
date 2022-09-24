@@ -1,13 +1,22 @@
 package com.kemalbeyaz.netty.rest.api.server.dispatcher;
 
+import com.kemalbeyaz.netty.rest.api.operation.OperationRequest;
+import com.kemalbeyaz.netty.rest.api.operation.OperationResponse;
+import com.kemalbeyaz.netty.rest.api.server.handler.Handler;
+import com.kemalbeyaz.netty.rest.api.server.handler.ToDoAddHandler;
 import com.kemalbeyaz.netty.rest.api.todo.ToDoService;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpMethod;
 
-public class PostDispatcher implements Dispatcher {
+import java.util.ArrayList;
+import java.util.List;
 
+public class PostDispatcher<Q extends OperationRequest, S extends OperationResponse> extends AbstractDispatcher<Q, S> {
+
+    private final List<Handler<Q, S>> handlers = new ArrayList<>();
+
+    @SuppressWarnings("unchecked")
     public PostDispatcher(final ToDoService toDoService) {
+        handlers.add((Handler<Q, S>) new ToDoAddHandler(toDoService));
     }
 
     @Override
@@ -16,7 +25,7 @@ public class PostDispatcher implements Dispatcher {
     }
 
     @Override
-    public FullHttpResponse dispatch(final FullHttpRequest fullHttpRequest) throws Exception {
-        return null;
+    public List<Handler<Q, S>> getHandlers() {
+        return handlers;
     }
 }
